@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Expanded(
                       child: Text(
-                        'Heck\'s Password Manager',
+                        'HeckPass',
                         style: Theme.of(context).primaryTextTheme.headlineMedium,
                         textAlign: TextAlign.start,
                       ),
