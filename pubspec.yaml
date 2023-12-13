@@ -12,6 +12,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+  otp_repository:
+    path: packages/otp_repository
+
   hive: ^2.2.3
   hive_flutter: ^1.1.0
 

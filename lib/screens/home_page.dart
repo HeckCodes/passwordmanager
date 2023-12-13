@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
                       }
                       return ListView.builder(
                         shrinkWrap: true,
-                        itemCount: 20, //box.values.length,
+                        itemCount: box.values.length,
                         physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
                         itemBuilder: (context, index) {
                           final idx = box.values.length - index - 1;

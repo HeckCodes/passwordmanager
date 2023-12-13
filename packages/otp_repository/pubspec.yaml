@@ -1,0 +1,15 @@
+name: otp_repository
+description: otp_repository is a dart package to generate and verify one-time passwords.
+publish_to: none
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.3 <4.0.0'
+
+dependencies:
+  crypto: ^3.0.3
+  base32: ^2.1.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
