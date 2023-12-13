@@ -47,12 +47,13 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Row(
                   children: [
-                    Text(
-                      'Heck\'s Password Manager',
-                      style: Theme.of(context).primaryTextTheme.headlineMedium,
-                      textAlign: TextAlign.start,
+                    Expanded(
+                      child: Text(
+                        'Heck\'s Password Manager',
+                        style: Theme.of(context).primaryTextTheme.headlineMedium,
+                        textAlign: TextAlign.start,
+                      ),
                     ),
-                    const Spacer(),
                     IconButton(
                       onPressed: () {
                         Navigator.push(

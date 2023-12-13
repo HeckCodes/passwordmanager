@@ -60,7 +60,6 @@ class CredentialCard extends StatelessWidget {
               IconButton(
                 onPressed: () {
                   showBottomSheet(
-                    enableDrag: true,
                     context: context,
                     builder: (context) {
                       return Container(
