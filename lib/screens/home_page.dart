@@ -4,6 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:passwordmanager/components/credentials_card.dart';
 import 'package:passwordmanager/database/credentials.dart';
 import 'package:passwordmanager/screens/add_credentials_page.dart';
+import 'package:passwordmanager/screens/settings_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -44,10 +45,31 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Row(
+                  children: [
+                    Text(
+                      'Heck\'s Password Manager',
+                      style: Theme.of(context).primaryTextTheme.headlineMedium,
+                      textAlign: TextAlign.start,
+                    ),
+                    const Spacer(),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SettingsPage(),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.settings_rounded),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 24),
                 Text(
-                  'Heck\'s Password Manager',
-                  style: Theme.of(context).primaryTextTheme.headlineMedium,
-                  textAlign: TextAlign.start,
+                  'All Credentials',
+                  style: Theme.of(context).primaryTextTheme.bodySmall,
                 ),
                 const SizedBox(height: 16),
                 Expanded(
@@ -67,7 +89,7 @@ class _HomePageState extends State<HomePage> {
                           final idx = box.values.length - index - 1;
                           return CredentialCard(
                             index: idx,
-                            credentials: box.get(idx) ??
+                            credentials: box.getAt(idx) ??
                                 Credentials(
                                   "name",
                                   "username",

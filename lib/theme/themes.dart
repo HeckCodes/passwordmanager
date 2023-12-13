@@ -8,6 +8,13 @@ ThemeData lightTheme() {
     brightness: Brightness.light,
     scaffoldBackgroundColor: LightThemeColors.backgroundColor,
     cardColor: LightThemeColors.white,
+    bottomSheetTheme: BottomSheetThemeData(
+      backgroundColor: LightThemeColors.white,
+      constraints: const BoxConstraints(
+        maxHeight: 350,
+        maxWidth: double.infinity,
+      ),
+    ),
     iconTheme: IconThemeData(color: LightThemeColors.captionAndIconFontColor),
     fontFamily: 'Rubik',
     appBarTheme: AppBarTheme(
@@ -55,6 +62,13 @@ ThemeData darkTheme() {
     brightness: Brightness.dark,
     scaffoldBackgroundColor: DarkThemeColors.backgroundColor,
     cardColor: DarkThemeColors.cardColor.withOpacity(0.3),
+    bottomSheetTheme: BottomSheetThemeData(
+      backgroundColor: DarkThemeColors.cardColor.withOpacity(0.3),
+      constraints: const BoxConstraints(
+        maxHeight: 350,
+        maxWidth: double.infinity,
+      ),
+    ),
     timePickerTheme: TimePickerThemeData(backgroundColor: DarkThemeColors.backgroundColor),
     dialogBackgroundColor: DarkThemeColors.backgroundColor,
     iconTheme: IconThemeData(color: LightThemeColors.captionAndIconFontColor),

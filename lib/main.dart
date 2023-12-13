@@ -5,6 +5,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:passwordmanager/database/credentials.dart';
 import 'package:passwordmanager/screens/home_page.dart';
+import 'package:passwordmanager/screens/local_auth_page.dart';
 import 'package:passwordmanager/theme/themes.dart';
 
 void main() async {
@@ -22,6 +23,9 @@ void main() async {
 
   await Hive.openBox<Credentials>(credentialsBoxName, encryptionCipher: HiveAesCipher(encryptionKey));
 
+  await Hive.openBox<bool>('preferences');
+  bool isLocalAuthOn = Hive.box<bool>('preferences').get('localAuthState', defaultValue: false)!;
+
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -29,16 +33,19 @@ void main() async {
       theme: lightTheme(),
       darkTheme: darkTheme(),
       themeMode: ThemeMode.system,
-      home: const Root(),
+      home: Root(
+        isLocalAuthOn: isLocalAuthOn,
+      ),
     ),
   );
 }
 
 class Root extends StatelessWidget {
-  const Root({super.key});
+  final bool isLocalAuthOn;
+  const Root({super.key, required this.isLocalAuthOn});
 
   @override
   Widget build(BuildContext context) {
-    return const HomePage();
+    return isLocalAuthOn ? const LocalAuthPage() : const HomePage();
   }
 }
