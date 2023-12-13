@@ -63,7 +63,7 @@ ThemeData darkTheme() {
     scaffoldBackgroundColor: DarkThemeColors.backgroundColor,
     cardColor: DarkThemeColors.cardColor.withOpacity(0.3),
     bottomSheetTheme: BottomSheetThemeData(
-      backgroundColor: DarkThemeColors.cardColor.withOpacity(0.3),
+      backgroundColor: DarkThemeColors.backgroundColor,
       constraints: const BoxConstraints(
         maxHeight: 350,
         maxWidth: double.infinity,

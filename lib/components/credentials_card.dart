@@ -59,7 +59,7 @@ class CredentialCard extends StatelessWidget {
               const Spacer(),
               IconButton(
                 onPressed: () {
-                  showBottomSheet(
+                  showModalBottomSheet(
                     context: context,
                     builder: (context) {
                       return Container(
