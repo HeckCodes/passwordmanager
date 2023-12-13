@@ -12,7 +12,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-  dynamic_color: ^1.6.8
   hive: ^2.2.3
   hive_flutter: ^1.1.0
 
@@ -33,9 +32,11 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
+  fonts:
+    - family: Rubik
+      fonts:
+        - asset: assets/fonts/Rubik-Regular.ttf
+        - asset: assets/fonts/Rubik-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Rubik-Black.ttf
+          weight: 900
