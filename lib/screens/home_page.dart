@@ -48,6 +48,12 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Row(
                   children: [
+                    const CircleAvatar(
+                      radius: 16,
+                      foregroundImage: AssetImage('assets/images/heckpass.png'),
+                      backgroundColor: Colors.transparent,
+                    ),
+                    const SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         'HeckPass',
