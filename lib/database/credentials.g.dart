@@ -62,5 +62,7 @@ class CredentialsAdapter extends TypeAdapter<Credentials> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is CredentialsAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is CredentialsAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

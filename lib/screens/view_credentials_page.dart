@@ -6,11 +6,9 @@ import 'package:passwordmanager/database/credentials.dart';
 
 class ViewCredentialsPage extends StatefulWidget {
   final Credentials credentials;
-  final int index;
   const ViewCredentialsPage({
     super.key,
     required this.credentials,
-    required this.index,
   });
 
   @override
@@ -44,7 +42,7 @@ class _ViewCredentialsPageState extends State<ViewCredentialsPage> {
       final revisionDate = DateTime.now();
       Hive.box<Credentials>(credentialsBoxName)
           .putAt(
-            widget.index,
+            widget.credentials.key,
             Credentials(
               nameController.text.trim(),
               usernameController.text.trim(),

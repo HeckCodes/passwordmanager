@@ -14,6 +14,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion(
@@ -68,6 +69,29 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
                 const SizedBox(height: 24),
+                TextField(
+                  controller: searchController,
+                  textCapitalization: TextCapitalization.none,
+                  onChanged: (_) {
+                    setState(() {});
+                  },
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Theme.of(context).cardColor,
+                    prefixIcon: const Icon(Icons.search_rounded),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: const BorderSide(
+                        width: 0,
+                        style: BorderStyle.none,
+                      ),
+                    ),
+                    hintText: 'Search',
+                    hintStyle: Theme.of(context).primaryTextTheme.bodySmall!.copyWith(fontSize: 16),
+                  ),
+                  style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(fontSize: 16),
+                ),
+                const SizedBox(height: 24),
                 Text(
                   'All Credentials',
                   style: Theme.of(context).primaryTextTheme.bodySmall,
@@ -79,31 +103,29 @@ class _HomePageState extends State<HomePage> {
                     builder: (context, box, _) {
                       if (box.values.isEmpty) {
                         return const Center(
-                          child: Text('No login details present :/'),
+                          child: Text('No login details present :)'),
                         );
                       }
+
+                      List<Credentials> sortedValues = box.values.toList()
+                        ..sort((o1, o2) => o2.key.toString().compareTo(o1.key.toString()));
+
+                      sortedValues = sortedValues
+                          .where((cred) => cred.name.toLowerCase().contains(searchController.text.trim().toLowerCase()))
+                          .toList();
+
+                      if (sortedValues.isEmpty) {
+                        return const Center(
+                          child: Text('No match found :)'),
+                        );
+                      }
+
                       return ListView.builder(
                         shrinkWrap: true,
-                        itemCount: box.values.length,
+                        itemCount: sortedValues.length,
                         physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
                         itemBuilder: (context, index) {
-                          final idx = box.values.length - index - 1;
-                          return CredentialCard(
-                            index: idx,
-                            credentials: box.getAt(idx) ??
-                                Credentials(
-                                  "name",
-                                  "username",
-                                  "password",
-                                  "totp",
-                                  "notes",
-                                  "uri",
-                                  "folderId",
-                                  DateTime.now(),
-                                  DateTime.now(),
-                                  false,
-                                ),
-                          );
+                          return CredentialCard(credentials: sortedValues[index]);
                         },
                       );
                     },

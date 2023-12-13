@@ -5,7 +5,7 @@ part 'credentials.g.dart';
 const String credentialsBoxName = 'credentialsBox';
 
 @HiveType(typeId: 1)
-class Credentials {
+class Credentials extends HiveObject {
   @HiveField(0)
   String name;
 

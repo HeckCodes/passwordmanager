@@ -6,11 +6,9 @@ import 'package:passwordmanager/screens/view_credentials_page.dart';
 
 class CredentialCard extends StatelessWidget {
   final Credentials credentials;
-  final int index;
   const CredentialCard({
     super.key,
     required this.credentials,
-    required this.index,
   });
 
   @override
@@ -23,10 +21,7 @@ class CredentialCard extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ViewCredentialsPage(
-                credentials: credentials,
-                index: index,
-              ),
+              builder: (context) => ViewCredentialsPage(credentials: credentials),
             ),
           );
         },
@@ -53,7 +48,8 @@ class CredentialCard extends StatelessWidget {
                     credentials.name,
                     style: const TextStyle(fontSize: 18),
                   ),
-                  Text(credentials.username)
+                  Text(credentials.username),
+                  Text(credentials.key.toString()),
                 ],
               ),
               const Spacer(),
@@ -148,10 +144,7 @@ class CredentialCard extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => ViewCredentialsPage(
-                                      credentials: credentials,
-                                      index: index,
-                                    ),
+                                    builder: (context) => ViewCredentialsPage(credentials: credentials),
                                   ),
                                 );
                               },
@@ -163,7 +156,7 @@ class CredentialCard extends StatelessWidget {
                             InkWell(
                               onTap: () async {
                                 Hive.box<Credentials>(credentialsBoxName)
-                                    .deleteAt(index)
+                                    .delete(credentials.key)
                                     .then(
                                       (value) => ScaffoldMessenger.of(context).showSnackBar(
                                         SnackBar(
