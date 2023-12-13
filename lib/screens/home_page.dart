@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:passwordmanager/components/credentials_card.dart';
 import 'package:passwordmanager/database/credentials.dart';
 import 'package:passwordmanager/screens/add_credentials_page.dart';
 
@@ -49,24 +50,41 @@ class _HomePageState extends State<HomePage> {
                   textAlign: TextAlign.start,
                 ),
                 const SizedBox(height: 16),
-                ValueListenableBuilder(
-                  valueListenable: Hive.box<Credentials>(credentialsBoxName).listenable(),
-                  builder: (context, box, _) {
-                    if (box.values.isEmpty) {
-                      return const Center(
-                        child: Text('No login details present'),
-                      );
-                    }
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: box.values.length,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          child: Text(box.getAt(index)!.name),
+                Expanded(
+                  child: ValueListenableBuilder(
+                    valueListenable: Hive.box<Credentials>(credentialsBoxName).listenable(),
+                    builder: (context, box, _) {
+                      if (box.values.isEmpty) {
+                        return const Center(
+                          child: Text('No login details present :/'),
                         );
-                      },
-                    );
-                  },
+                      }
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: 20, //box.values.length,
+                        physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                        itemBuilder: (context, index) {
+                          final idx = box.values.length - index - 1;
+                          return CredentialCard(
+                            index: idx,
+                            credentials: box.get(idx) ??
+                                Credentials(
+                                  "name",
+                                  "username",
+                                  "password",
+                                  "totp",
+                                  "notes",
+                                  "uri",
+                                  "folderId",
+                                  DateTime.now(),
+                                  DateTime.now(),
+                                  false,
+                                ),
+                          );
+                        },
+                      );
+                    },
+                  ),
                 ),
               ],
             ),

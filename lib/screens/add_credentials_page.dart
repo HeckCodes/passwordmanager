@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:passwordmanager/database/credentials.dart';
 
 class AddCredentialsPage extends StatefulWidget {
@@ -23,7 +23,7 @@ class _AddCredentialsPageState extends State<AddCredentialsPage> {
   String defaultFolderId = 'Default';
   bool favourite = false;
 
-  void encryptAndSaveOnExit() {
+  void saveAndExit() {
     if (loginDetialsFormKey.currentState!.validate()) {
       final now = DateTime.now();
       Hive.box<Credentials>(credentialsBoxName)
@@ -46,6 +46,17 @@ class _AddCredentialsPageState extends State<AddCredentialsPage> {
   }
 
   @override
+  void dispose() {
+    nameController.dispose();
+    usernameController.dispose();
+    passwordController.dispose();
+    totpController.dispose();
+    notesController.dispose();
+    uriController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
@@ -57,7 +68,7 @@ class _AddCredentialsPageState extends State<AddCredentialsPage> {
       ),
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
-          onPressed: encryptAndSaveOnExit,
+          onPressed: saveAndExit,
           child: const Icon(
             Icons.check_rounded,
             color: Colors.white,
@@ -181,6 +192,7 @@ class _AddCredentialsPageState extends State<AddCredentialsPage> {
                       textCapitalization: TextCapitalization.none,
                       keyboardType: TextInputType.text,
                       maxLines: 1,
+                      obscureText: true,
                       decoration: InputDecoration(
                         fillColor: Theme.of(context).cardColor,
                         filled: true,

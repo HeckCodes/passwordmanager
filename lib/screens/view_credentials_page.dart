@@ -4,7 +4,13 @@ import 'package:hive/hive.dart';
 import 'package:passwordmanager/database/credentials.dart';
 
 class ViewCredentialsPage extends StatefulWidget {
-  const ViewCredentialsPage({super.key});
+  final Credentials credentials;
+  final int index;
+  const ViewCredentialsPage({
+    super.key,
+    required this.credentials,
+    required this.index,
+  });
 
   @override
   State<ViewCredentialsPage> createState() => _ViewCredentialsPageState();
@@ -22,13 +28,66 @@ class _ViewCredentialsPageState extends State<ViewCredentialsPage> {
   final notesController = TextEditingController();
   final uriController = TextEditingController();
 
-  String defaultFolderId = 'Default';
-  bool favourite = false;
+  late String defaultFolderId;
+  late bool favourite;
 
-  void encryptAndSaveOnExit() {
+  late DateTime creationDate;
+  late DateTime revisionDate;
+
+  bool showPassword = false;
+  bool showTotp = false;
+
+  void saveAndExit() {
     if (loginDetialsFormKey.currentState!.validate()) {
-      final now = DateTime.now();
+      final revisionDate = DateTime.now();
+      Hive.box<Credentials>(credentialsBoxName)
+          .putAt(
+            widget.index,
+            Credentials(
+              nameController.text.trim(),
+              usernameController.text.trim(),
+              passwordController.text,
+              totpController.text.trim(),
+              notesController.text,
+              uriController.text.trim(),
+              defaultFolderId,
+              creationDate,
+              revisionDate,
+              favourite,
+            ),
+          )
+          .then((value) => Navigator.of(context).pop());
     }
+  }
+
+  void setData() {
+    nameController.text = widget.credentials.name;
+    usernameController.text = widget.credentials.username;
+    passwordController.text = widget.credentials.password;
+    totpController.text = widget.credentials.totp ?? '';
+    notesController.text = widget.credentials.notes ?? '';
+    uriController.text = widget.credentials.uri ?? '';
+    creationDate = widget.credentials.creationDate;
+    revisionDate = widget.credentials.revisionDate;
+    defaultFolderId = widget.credentials.folderId;
+    favourite = widget.credentials.favourite;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setData();
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    usernameController.dispose();
+    passwordController.dispose();
+    totpController.dispose();
+    notesController.dispose();
+    uriController.dispose();
+    super.dispose();
   }
 
   @override
@@ -42,13 +101,25 @@ class _ViewCredentialsPageState extends State<ViewCredentialsPage> {
             Theme.of(context).appBarTheme.systemOverlayStyle!.systemNavigationBarIconBrightness,
       ),
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: encryptAndSaveOnExit,
-          child: const Icon(
-            Icons.check_rounded,
-            color: Colors.white,
-          ),
-        ),
+        floatingActionButton: !isEditing
+            ? FloatingActionButton(
+                onPressed: () {
+                  setState(() {
+                    isEditing = true;
+                  });
+                },
+                child: const Icon(
+                  Icons.edit_note_rounded,
+                  color: Colors.white,
+                ),
+              )
+            : FloatingActionButton(
+                onPressed: saveAndExit,
+                child: const Icon(
+                  Icons.check_rounded,
+                  color: Colors.white,
+                ),
+              ),
         body: SingleChildScrollView(
           child: SafeArea(
             child: Padding(
@@ -140,13 +211,21 @@ class _ViewCredentialsPageState extends State<ViewCredentialsPage> {
                       controller: passwordController,
                       textCapitalization: TextCapitalization.none,
                       keyboardType: TextInputType.text,
-                      obscureText: true,
+                      obscureText: !showPassword,
                       maxLines: 1,
                       readOnly: !isEditing,
                       decoration: InputDecoration(
                         fillColor: Theme.of(context).cardColor,
                         filled: true,
                         prefixIcon: const Icon(Icons.password_rounded),
+                        suffixIcon: IconButton(
+                          icon: const Icon(Icons.remove_red_eye_rounded),
+                          onPressed: () {
+                            setState(() {
+                              showPassword = !showPassword;
+                            });
+                          },
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide: const BorderSide(
@@ -171,10 +250,19 @@ class _ViewCredentialsPageState extends State<ViewCredentialsPage> {
                       keyboardType: TextInputType.text,
                       maxLines: 1,
                       readOnly: !isEditing,
+                      obscureText: !showTotp,
                       decoration: InputDecoration(
                         fillColor: Theme.of(context).cardColor,
                         filled: true,
                         prefixIcon: const Icon(Icons.enhanced_encryption_rounded),
+                        suffixIcon: IconButton(
+                          icon: const Icon(Icons.remove_red_eye_rounded),
+                          onPressed: () {
+                            setState(() {
+                              showTotp = !showTotp;
+                            });
+                          },
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide: const BorderSide(
@@ -242,6 +330,9 @@ class _ViewCredentialsPageState extends State<ViewCredentialsPage> {
                       ),
                       style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(fontSize: 16),
                     ),
+                    const SizedBox(height: 24),
+                    Text("Created at:  ${widget.credentials.creationDate}"),
+                    Text("Revisioned: ${widget.credentials.creationDate}"),
                     const SizedBox(height: 24),
                     const Text(
                       'Details are stored locally on device and are encrypted with AES-256 (32 bytes) encryption key.',
