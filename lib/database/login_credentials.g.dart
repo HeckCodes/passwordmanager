@@ -20,9 +20,9 @@ class LoginCredentialsAdapter extends TypeAdapter<LoginCredentials> {
       fields[0] as String,
       fields[1] as String,
       fields[2] as String,
-      fields[3] as String,
-      fields[4] as String,
-      fields[5] as String,
+      fields[3] as String?,
+      fields[4] as String?,
+      fields[5] as String?,
       fields[6] as String,
       fields[7] as DateTime,
       fields[8] as DateTime,
@@ -53,7 +53,7 @@ class LoginCredentialsAdapter extends TypeAdapter<LoginCredentials> {
       ..writeByte(8)
       ..write(obj.revisionDate)
       ..writeByte(9)
-      ..write(obj.favorite);
+      ..write(obj.favourite);
   }
 
   @override

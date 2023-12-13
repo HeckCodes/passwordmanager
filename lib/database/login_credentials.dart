@@ -16,13 +16,13 @@ class LoginCredentials {
   String password;
 
   @HiveField(3)
-  String totp;
+  String? totp;
 
   @HiveField(4)
-  String notes;
+  String? notes;
 
   @HiveField(5)
-  String uri;
+  String? uri;
 
   @HiveField(6)
   String folderId;
@@ -34,7 +34,7 @@ class LoginCredentials {
   DateTime revisionDate;
 
   @HiveField(9)
-  bool favorite;
+  bool favourite;
 
   LoginCredentials(
     this.name,
@@ -46,6 +46,6 @@ class LoginCredentials {
     this.folderId,
     this.creationDate,
     this.revisionDate,
-    this.favorite,
+    this.favourite,
   );
 }
