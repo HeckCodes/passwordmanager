@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:passwordmanager/database/login_credentials.dart';
+import 'package:passwordmanager/database/credentials.dart';
 import 'package:passwordmanager/screens/home_page.dart';
 import 'package:passwordmanager/theme/themes.dart';
 
 void main() async {
   await Hive.initFlutter();
-  Hive.registerAdapter<LoginCredentials>(LoginCredentialsAdapter());
+  Hive.registerAdapter<Credentials>(CredentialsAdapter());
 
   const secureStorage = FlutterSecureStorage();
   final key = await secureStorage.read(key: 'encryption-key');
@@ -20,7 +20,7 @@ void main() async {
   final encodedKeyStr = await secureStorage.read(key: 'encryption-key');
   final encryptionKey = base64Url.decode(encodedKeyStr!);
 
-  await Hive.openBox<LoginCredentials>(loginDetailsBoxName, encryptionCipher: HiveAesCipher(encryptionKey));
+  await Hive.openBox<Credentials>(credentialsBoxName, encryptionCipher: HiveAesCipher(encryptionKey));
 
   runApp(
     MaterialApp(

@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
-import 'package:passwordmanager/database/login_credentials.dart';
+import 'package:passwordmanager/database/credentials.dart';
 
-class ViewLoginPage extends StatefulWidget {
-  const ViewLoginPage({super.key});
+class AddCredentialsPage extends StatefulWidget {
+  const AddCredentialsPage({super.key});
 
   @override
-  State<ViewLoginPage> createState() => _ViewLoginPageState();
+  State<AddCredentialsPage> createState() => _AddCredentialsPageState();
 }
 
-class _ViewLoginPageState extends State<ViewLoginPage> {
+class _AddCredentialsPageState extends State<AddCredentialsPage> {
   final loginDetialsFormKey = GlobalKey<FormState>();
-
-  bool isEditing = false;
 
   final nameController = TextEditingController();
   final usernameController = TextEditingController();
@@ -28,6 +26,22 @@ class _ViewLoginPageState extends State<ViewLoginPage> {
   void encryptAndSaveOnExit() {
     if (loginDetialsFormKey.currentState!.validate()) {
       final now = DateTime.now();
+      Hive.box<Credentials>(credentialsBoxName)
+          .add(
+            Credentials(
+              nameController.text.trim(),
+              usernameController.text.trim(),
+              passwordController.text,
+              totpController.text.trim(),
+              notesController.text,
+              uriController.text.trim(),
+              defaultFolderId,
+              now,
+              now,
+              favourite,
+            ),
+          )
+          .then((value) => Navigator.of(context).pop());
     }
   }
 
@@ -59,13 +73,13 @@ class _ViewLoginPageState extends State<ViewLoginPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Login Details',
+                      'Credentials',
                       style: Theme.of(context).primaryTextTheme.headlineMedium,
                       textAlign: TextAlign.start,
                     ),
                     const SizedBox(height: 32),
                     Text(
-                      'Login title',
+                      'Name',
                       style: Theme.of(context).primaryTextTheme.bodySmall,
                     ),
                     const SizedBox(height: 8),
@@ -79,7 +93,6 @@ class _ViewLoginPageState extends State<ViewLoginPage> {
                       controller: nameController,
                       textCapitalization: TextCapitalization.sentences,
                       maxLines: 1,
-                      readOnly: !isEditing,
                       decoration: InputDecoration(
                         fillColor: Theme.of(context).cardColor,
                         filled: true,
@@ -112,7 +125,6 @@ class _ViewLoginPageState extends State<ViewLoginPage> {
                       textCapitalization: TextCapitalization.none,
                       keyboardType: TextInputType.emailAddress,
                       maxLines: 1,
-                      readOnly: !isEditing,
                       decoration: InputDecoration(
                         fillColor: Theme.of(context).cardColor,
                         filled: true,
@@ -142,7 +154,6 @@ class _ViewLoginPageState extends State<ViewLoginPage> {
                       keyboardType: TextInputType.text,
                       obscureText: true,
                       maxLines: 1,
-                      readOnly: !isEditing,
                       decoration: InputDecoration(
                         fillColor: Theme.of(context).cardColor,
                         filled: true,
@@ -170,7 +181,6 @@ class _ViewLoginPageState extends State<ViewLoginPage> {
                       textCapitalization: TextCapitalization.none,
                       keyboardType: TextInputType.text,
                       maxLines: 1,
-                      readOnly: !isEditing,
                       decoration: InputDecoration(
                         fillColor: Theme.of(context).cardColor,
                         filled: true,
@@ -198,7 +208,6 @@ class _ViewLoginPageState extends State<ViewLoginPage> {
                       textCapitalization: TextCapitalization.none,
                       keyboardType: TextInputType.url,
                       maxLines: 1,
-                      readOnly: !isEditing,
                       decoration: InputDecoration(
                         fillColor: Theme.of(context).cardColor,
                         filled: true,
@@ -226,7 +235,6 @@ class _ViewLoginPageState extends State<ViewLoginPage> {
                       textCapitalization: TextCapitalization.sentences,
                       keyboardType: TextInputType.multiline,
                       maxLines: 50,
-                      readOnly: !isEditing,
                       decoration: InputDecoration(
                         constraints: BoxConstraints.loose(const Size(double.infinity, 150)),
                         fillColor: Theme.of(context).cardColor,

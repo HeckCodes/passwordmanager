@@ -1,11 +1,11 @@
 import 'package:hive/hive.dart';
 
-part 'login_credentials.g.dart';
+part 'credentials.g.dart';
 
-const String loginDetailsBoxName = 'LoginCredentialsBox';
+const String credentialsBoxName = 'credentialsBox';
 
 @HiveType(typeId: 1)
-class LoginCredentials {
+class Credentials {
   @HiveField(0)
   String name;
 
@@ -36,7 +36,7 @@ class LoginCredentials {
   @HiveField(9)
   bool favourite;
 
-  LoginCredentials(
+  Credentials(
     this.name,
     this.username,
     this.password,

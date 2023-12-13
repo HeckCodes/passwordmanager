@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:passwordmanager/database/login_credentials.dart';
-import 'package:passwordmanager/screens/add_login_page.dart';
+import 'package:passwordmanager/database/credentials.dart';
+import 'package:passwordmanager/screens/add_credentials_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
             await Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const AddLoginPage(),
+                builder: (context) => const AddCredentialsPage(),
               ),
             );
           },
@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 const SizedBox(height: 16),
                 ValueListenableBuilder(
-                  valueListenable: Hive.box<LoginCredentials>(loginDetailsBoxName).listenable(),
+                  valueListenable: Hive.box<Credentials>(credentialsBoxName).listenable(),
                   builder: (context, box, _) {
                     if (box.values.isEmpty) {
                       return const Center(
