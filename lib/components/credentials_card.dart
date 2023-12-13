@@ -49,7 +49,6 @@ class CredentialCard extends StatelessWidget {
                     style: const TextStyle(fontSize: 18),
                   ),
                   Text(credentials.username),
-                  Text(credentials.key.toString()),
                 ],
               ),
               const Spacer(),
