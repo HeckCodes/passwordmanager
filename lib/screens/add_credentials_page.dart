@@ -183,7 +183,7 @@ class _AddCredentialsPageState extends State<AddCredentialsPage> {
                     ),
                     const SizedBox(height: 24),
                     Text(
-                      'One Time Password (TOTP)',
+                      '2FA Secret Code',
                       style: Theme.of(context).primaryTextTheme.bodySmall,
                     ),
                     const SizedBox(height: 8),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
+import 'package:otp_repository/otp_repository.dart';
 import 'package:passwordmanager/database/credentials.dart';
 
 class ViewCredentialsPage extends StatefulWidget {
@@ -25,6 +26,7 @@ class _ViewCredentialsPageState extends State<ViewCredentialsPage> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   final totpController = TextEditingController();
+  final totpCodeController = TextEditingController();
   final notesController = TextEditingController();
   final uriController = TextEditingController();
 
@@ -64,7 +66,7 @@ class _ViewCredentialsPageState extends State<ViewCredentialsPage> {
     nameController.text = widget.credentials.name;
     usernameController.text = widget.credentials.username;
     passwordController.text = widget.credentials.password;
-    totpController.text = widget.credentials.totp ?? '';
+    totpController.text = widget.credentials.totpSecret ?? '';
     notesController.text = widget.credentials.notes ?? '';
     uriController.text = widget.credentials.uri ?? '';
     creationDate = widget.credentials.creationDate;
@@ -240,7 +242,7 @@ class _ViewCredentialsPageState extends State<ViewCredentialsPage> {
                     ),
                     const SizedBox(height: 24),
                     Text(
-                      'One Time Password (TOTP)',
+                      '2FA Secret Code',
                       style: Theme.of(context).primaryTextTheme.bodySmall,
                     ),
                     const SizedBox(height: 8),
@@ -271,6 +273,36 @@ class _ViewCredentialsPageState extends State<ViewCredentialsPage> {
                           ),
                         ),
                         hintText: 'TOTP Secret',
+                        hintStyle: Theme.of(context).primaryTextTheme.bodySmall!.copyWith(fontSize: 16),
+                      ),
+                      style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(fontSize: 16),
+                    ),
+                    const SizedBox(height: 4),
+                    TextFormField(
+                      controller: totpCodeController,
+                      readOnly: true,
+                      decoration: InputDecoration(
+                        fillColor: Theme.of(context).cardColor,
+                        filled: true,
+                        prefixIcon: const Icon(Icons.code_rounded),
+                        suffixIcon: IconButton(
+                          icon: const Icon(Icons.refresh_rounded),
+                          onPressed: () {
+                            if (widget.credentials.totpSecret != null) {
+                              setState(() {
+                                totpCodeController.text = TOTP(secret: widget.credentials.totpSecret!).now();
+                              });
+                            }
+                          },
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(
+                            width: 0,
+                            style: BorderStyle.none,
+                          ),
+                        ),
+                        hintText: 'TOTP Code',
                         hintStyle: Theme.of(context).primaryTextTheme.bodySmall!.copyWith(fontSize: 16),
                       ),
                       style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(fontSize: 16),

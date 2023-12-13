@@ -41,7 +41,7 @@ class CredentialsAdapter extends TypeAdapter<Credentials> {
       ..writeByte(2)
       ..write(obj.password)
       ..writeByte(3)
-      ..write(obj.totp)
+      ..write(obj.totpSecret)
       ..writeByte(4)
       ..write(obj.notes)
       ..writeByte(5)
@@ -62,7 +62,5 @@ class CredentialsAdapter extends TypeAdapter<Credentials> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is CredentialsAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      other is CredentialsAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

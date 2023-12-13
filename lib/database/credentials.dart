@@ -16,7 +16,7 @@ class Credentials {
   String password;
 
   @HiveField(3)
-  String? totp;
+  String? totpSecret;
 
   @HiveField(4)
   String? notes;
@@ -40,7 +40,7 @@ class Credentials {
     this.name,
     this.username,
     this.password,
-    this.totp,
+    this.totpSecret,
     this.notes,
     this.uri,
     this.folderId,
