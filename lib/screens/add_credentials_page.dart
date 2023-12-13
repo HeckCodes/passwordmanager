@@ -263,10 +263,6 @@ class _AddCredentialsPageState extends State<AddCredentialsPage> {
                       style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(fontSize: 16),
                     ),
                     const SizedBox(height: 24),
-                    const Text(
-                      'Details are stored locally on device and are encrypted with AES-256 (32 bytes) encryption key.',
-                      textAlign: TextAlign.center,
-                    ),
                   ],
                 ),
               ),

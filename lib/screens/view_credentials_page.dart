@@ -364,10 +364,6 @@ class _ViewCredentialsPageState extends State<ViewCredentialsPage> {
                     Text("Created at:  ${widget.credentials.creationDate}"),
                     Text("Revisioned: ${widget.credentials.creationDate}"),
                     const SizedBox(height: 24),
-                    const Text(
-                      'Details are stored locally on device and are encrypted with AES-256 (32 bytes) encryption key.',
-                      textAlign: TextAlign.center,
-                    ),
                   ],
                 ),
               ),
