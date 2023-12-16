@@ -7,34 +7,34 @@ const String credentialsBoxName = 'credentialsBox';
 @HiveType(typeId: 1)
 class Credentials extends HiveObject {
   @HiveField(0)
-  String name;
+  final String name;
 
   @HiveField(1)
-  String username;
+  final String username;
 
   @HiveField(2)
-  String password;
+  final String password;
 
   @HiveField(3)
-  String? totpSecret;
+  final String? totpSecret;
 
   @HiveField(4)
-  String? notes;
+  final String? notes;
 
   @HiveField(5)
-  String? uri;
+  final String? uri;
 
   @HiveField(6)
-  String folderId;
+  final String folderId;
 
   @HiveField(7)
-  DateTime creationDate;
+  final DateTime creationDate;
 
   @HiveField(8)
-  DateTime revisionDate;
+  final DateTime revisionDate;
 
   @HiveField(9)
-  bool favourite;
+  final bool favourite;
 
   Credentials(
     this.name,
@@ -48,4 +48,35 @@ class Credentials extends HiveObject {
     this.revisionDate,
     this.favourite,
   );
+
+  static Credentials fromJson(Map<String, dynamic> jsonData) {
+    return Credentials(
+      jsonData['name'] as String,
+      jsonData['username'] as String,
+      jsonData['password'] as String,
+      jsonData['totp'] == null ? null : jsonData['totp'] as String,
+      jsonData['notes'] == null ? null : jsonData['notes'] as String,
+      jsonData['uri'] == null ? null : jsonData['uri'] as String,
+      'Default',
+      DateTime.parse(jsonData['creationDate']),
+      DateTime.parse(jsonData['revisionDate']),
+      jsonData['favourite'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> jsonData = <String, dynamic>{};
+    jsonData['name'] = name;
+    jsonData['username'] = username;
+    jsonData['password'] = password;
+    jsonData['totpSecret'] = totpSecret;
+    jsonData['notes'] = notes;
+    jsonData['uri'] = uri;
+    jsonData['folderId'] = folderId;
+    jsonData['creationDate'] = creationDate.toIso8601String();
+    jsonData['revisionDate'] = revisionDate.toIso8601String();
+    jsonData['favourite'] = favourite;
+
+    return jsonData;
+  }
 }

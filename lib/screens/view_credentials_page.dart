@@ -129,10 +129,43 @@ class _ViewCredentialsPageState extends State<ViewCredentialsPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Credentials',
-                      style: Theme.of(context).primaryTextTheme.headlineMedium,
-                      textAlign: TextAlign.start,
+                    Row(
+                      children: [
+                        Text(
+                          'Credentials',
+                          style: Theme.of(context).primaryTextTheme.headlineMedium,
+                          textAlign: TextAlign.start,
+                        ),
+                        const Spacer(),
+                        FloatingActionButton.small(
+                          heroTag: null,
+                          backgroundColor:
+                              isEditing ? Theme.of(context).colorScheme.error : Theme.of(context).disabledColor,
+                          onPressed: isEditing
+                              ? () {
+                                  Hive.box<Credentials>(credentialsBoxName)
+                                      .delete(widget.credentials.key)
+                                      .then(
+                                        (value) => ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(
+                                            duration: const Duration(seconds: 1),
+                                            content: const Text('Deleted Credentials'),
+                                            action: SnackBarAction(
+                                              label: 'Ok',
+                                              onPressed: ScaffoldMessenger.of(context).hideCurrentSnackBar,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                      .then((value) => Navigator.of(context).pop());
+                                }
+                              : null,
+                          child: const Icon(
+                            Icons.delete_outline_rounded,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 32),
                     Text(
@@ -288,7 +321,9 @@ class _ViewCredentialsPageState extends State<ViewCredentialsPage> {
                           onPressed: () {
                             if (widget.credentials.totpSecret != null) {
                               setState(() {
-                                totpCodeController.text = TOTP(secret: widget.credentials.totpSecret!).now();
+                                totpCodeController.text =
+                                    TOTP(secret: widget.credentials.totpSecret!.replaceAll(" ", "").toUpperCase())
+                                        .now();
                               });
                             }
                           },

@@ -41,17 +41,24 @@ class CredentialCard extends StatelessWidget {
                   ),
                 ),
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    credentials.name,
-                    style: const TextStyle(fontSize: 18),
-                  ),
-                  Text(credentials.username),
-                ],
+              Flexible(
+                fit: FlexFit.tight,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      credentials.name,
+                      style: const TextStyle(fontSize: 18),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      credentials.username,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
               ),
-              const Spacer(),
               IconButton(
                 onPressed: () {
                   showModalBottomSheet(
