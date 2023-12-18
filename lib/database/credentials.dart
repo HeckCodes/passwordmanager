@@ -25,7 +25,7 @@ class Credentials extends HiveObject {
   final String? uri;
 
   @HiveField(6)
-  final String folderId;
+  final String? folderId;
 
   @HiveField(7)
   final DateTime creationDate;
@@ -57,7 +57,7 @@ class Credentials extends HiveObject {
       jsonData['totpSecret'] == null ? null : jsonData['totpSecret'] as String,
       jsonData['notes'] == null ? null : jsonData['notes'] as String,
       jsonData['uri'] == null ? null : jsonData['uri'] as String,
-      'Default',
+      jsonData['folderId'] == null ? "Default" : jsonData['folderId'] as String,
       DateTime.parse(jsonData['creationDate']),
       DateTime.parse(jsonData['revisionDate']),
       jsonData['favourite'] as bool,

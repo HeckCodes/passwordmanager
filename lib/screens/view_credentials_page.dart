@@ -27,8 +27,8 @@ class _ViewCredentialsPageState extends State<ViewCredentialsPage> {
   final totpCodeController = TextEditingController();
   final notesController = TextEditingController();
   final uriController = TextEditingController();
+  final folderIdController = TextEditingController();
 
-  late String defaultFolderId;
   late bool favourite;
 
   late DateTime creationDate;
@@ -50,7 +50,7 @@ class _ViewCredentialsPageState extends State<ViewCredentialsPage> {
               totpController.text.trim(),
               notesController.text,
               uriController.text.trim(),
-              defaultFolderId,
+              folderIdController.text.trim(),
               creationDate,
               revisionDate,
               favourite,
@@ -69,7 +69,7 @@ class _ViewCredentialsPageState extends State<ViewCredentialsPage> {
     uriController.text = widget.credentials.uri ?? '';
     creationDate = widget.credentials.creationDate;
     revisionDate = widget.credentials.revisionDate;
-    defaultFolderId = widget.credentials.folderId;
+    folderIdController.text = widget.credentials.folderId ?? "Default";
     favourite = widget.credentials.favourite;
   }
 
@@ -87,6 +87,7 @@ class _ViewCredentialsPageState extends State<ViewCredentialsPage> {
     totpController.dispose();
     notesController.dispose();
     uriController.dispose();
+    folderIdController.dispose();
     super.dispose();
   }
 
@@ -364,6 +365,34 @@ class _ViewCredentialsPageState extends State<ViewCredentialsPage> {
                           ),
                         ),
                         hintText: 'Website/App Url',
+                        hintStyle: Theme.of(context).primaryTextTheme.bodySmall!.copyWith(fontSize: 16),
+                      ),
+                      style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(fontSize: 16),
+                    ),
+                    const SizedBox(height: 24),
+                    Text(
+                      'Folder Name',
+                      style: Theme.of(context).primaryTextTheme.bodySmall,
+                    ),
+                    const SizedBox(height: 8),
+                    TextFormField(
+                      controller: folderIdController,
+                      textCapitalization: TextCapitalization.sentences,
+                      keyboardType: TextInputType.text,
+                      maxLines: 1,
+                      readOnly: !isEditing,
+                      decoration: InputDecoration(
+                        fillColor: Theme.of(context).cardColor,
+                        filled: true,
+                        prefixIcon: const Icon(Icons.link_rounded),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(
+                            width: 0,
+                            style: BorderStyle.none,
+                          ),
+                        ),
+                        hintText: 'Folder name for grouping',
                         hintStyle: Theme.of(context).primaryTextTheme.bodySmall!.copyWith(fontSize: 16),
                       ),
                       style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(fontSize: 16),

@@ -23,7 +23,7 @@ class CredentialsAdapter extends TypeAdapter<Credentials> {
       fields[3] as String?,
       fields[4] as String?,
       fields[5] as String?,
-      fields[6] as String,
+      fields[6] as String?,
       fields[7] as DateTime,
       fields[8] as DateTime,
       fields[9] as bool,
@@ -62,7 +62,5 @@ class CredentialsAdapter extends TypeAdapter<Credentials> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is CredentialsAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      other is CredentialsAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

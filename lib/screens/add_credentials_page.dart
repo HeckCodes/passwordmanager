@@ -19,8 +19,8 @@ class _AddCredentialsPageState extends State<AddCredentialsPage> {
   final totpController = TextEditingController();
   final notesController = TextEditingController();
   final uriController = TextEditingController();
+  final folderIdController = TextEditingController();
 
-  String defaultFolderId = 'Default';
   bool favourite = false;
 
   void saveAndExit() {
@@ -35,7 +35,7 @@ class _AddCredentialsPageState extends State<AddCredentialsPage> {
               totpController.text.trim(),
               notesController.text,
               uriController.text.trim(),
-              defaultFolderId,
+              folderIdController.text.trim(),
               now,
               now,
               favourite,
@@ -53,6 +53,7 @@ class _AddCredentialsPageState extends State<AddCredentialsPage> {
     totpController.dispose();
     notesController.dispose();
     uriController.dispose();
+    folderIdController.dispose();
     super.dispose();
   }
 
@@ -232,6 +233,33 @@ class _AddCredentialsPageState extends State<AddCredentialsPage> {
                           ),
                         ),
                         hintText: 'Website/App Url',
+                        hintStyle: Theme.of(context).primaryTextTheme.bodySmall!.copyWith(fontSize: 16),
+                      ),
+                      style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(fontSize: 16),
+                    ),
+                    const SizedBox(height: 24),
+                    Text(
+                      'Folder Name',
+                      style: Theme.of(context).primaryTextTheme.bodySmall,
+                    ),
+                    const SizedBox(height: 8),
+                    TextFormField(
+                      controller: folderIdController,
+                      textCapitalization: TextCapitalization.sentences,
+                      keyboardType: TextInputType.text,
+                      maxLines: 1,
+                      decoration: InputDecoration(
+                        fillColor: Theme.of(context).cardColor,
+                        filled: true,
+                        prefixIcon: const Icon(Icons.folder_rounded),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(
+                            width: 0,
+                            style: BorderStyle.none,
+                          ),
+                        ),
+                        hintText: 'Folder name for grouping',
                         hintStyle: Theme.of(context).primaryTextTheme.bodySmall!.copyWith(fontSize: 16),
                       ),
                       style: Theme.of(context).primaryTextTheme.bodyMedium!.copyWith(fontSize: 16),
