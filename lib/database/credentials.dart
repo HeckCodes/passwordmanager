@@ -54,7 +54,7 @@ class Credentials extends HiveObject {
       jsonData['name'] as String,
       jsonData['username'] as String,
       jsonData['password'] as String,
-      jsonData['totp'] == null ? null : jsonData['totp'] as String,
+      jsonData['totpSecret'] == null ? null : jsonData['totpSecret'] as String,
       jsonData['notes'] == null ? null : jsonData['notes'] as String,
       jsonData['uri'] == null ? null : jsonData['uri'] as String,
       'Default',
