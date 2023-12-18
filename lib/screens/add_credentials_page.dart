@@ -27,21 +27,25 @@ class _AddCredentialsPageState extends State<AddCredentialsPage> {
     if (loginDetialsFormKey.currentState!.validate()) {
       final now = DateTime.now();
       Hive.box<Credentials>(credentialsBoxName)
-          .add(
-            Credentials(
-              nameController.text.trim(),
-              usernameController.text.trim(),
-              passwordController.text,
-              totpController.text.trim(),
-              notesController.text,
-              uriController.text.trim(),
-              folderIdController.text.trim(),
-              now,
-              now,
-              favourite,
-            ),
-          )
-          .then((value) => Navigator.of(context).pop());
+          .put(
+        now.millisecondsSinceEpoch.toString(),
+        Credentials(
+          nameController.text.trim(),
+          usernameController.text.trim(),
+          passwordController.text,
+          totpController.text.trim(),
+          notesController.text,
+          uriController.text.trim(),
+          folderIdController.text.trim().isEmpty ? "Default" : folderIdController.text.trim(),
+          now,
+          now,
+          favourite,
+        ),
+      )
+          .then((value) {
+        Hive.box<bool>('folders').put("change", !Hive.box<bool>('folders').get("change")!);
+        Navigator.of(context).pop();
+      });
     }
   }
 

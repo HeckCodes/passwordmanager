@@ -76,8 +76,10 @@ void addCredsToDB(File file, BuildContext context) {
     var json = jsonDecode(content);
     var items = json['items'];
     for (var item in items) {
-      Hive.box<Credentials>(credentialsBoxName).add(Credentials.fromJson(item));
+      Hive.box<Credentials>(credentialsBoxName)
+          .put(DateTime.now().millisecondsSinceEpoch.toString(), Credentials.fromJson(item));
     }
+    Hive.box('folders').put("change", !Hive.box<bool>('folders').get("change")!);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         duration: const Duration(seconds: 2),

@@ -41,22 +41,25 @@ class _ViewCredentialsPageState extends State<ViewCredentialsPage> {
     if (loginDetialsFormKey.currentState!.validate()) {
       final revisionDate = DateTime.now();
       Hive.box<Credentials>(credentialsBoxName)
-          .putAt(
-            widget.credentials.key,
-            Credentials(
-              nameController.text.trim(),
-              usernameController.text.trim(),
-              passwordController.text,
-              totpController.text.trim(),
-              notesController.text,
-              uriController.text.trim(),
-              folderIdController.text.trim(),
-              creationDate,
-              revisionDate,
-              favourite,
-            ),
-          )
-          .then((value) => Navigator.of(context).pop());
+          .put(
+        widget.credentials.key,
+        Credentials(
+          nameController.text.trim(),
+          usernameController.text.trim(),
+          passwordController.text,
+          totpController.text.trim(),
+          notesController.text,
+          uriController.text.trim(),
+          folderIdController.text.trim().isEmpty ? "Default" : folderIdController.text.trim(),
+          creationDate,
+          revisionDate,
+          favourite,
+        ),
+      )
+          .then((value) {
+        Hive.box<bool>('folders').put("change", !Hive.box<bool>('folders').get("change")!);
+        Navigator.of(context).pop();
+      });
     }
   }
 

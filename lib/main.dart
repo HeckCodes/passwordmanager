@@ -22,6 +22,7 @@ void main() async {
   final encryptionKey = base64Url.decode(encodedKeyStr!);
 
   await Hive.openBox<Credentials>(credentialsBoxName, encryptionCipher: HiveAesCipher(encryptionKey));
+  await Hive.openBox<bool>('folders').then((value) => Hive.box<bool>('folders').put("change", true));
 
   await Hive.openBox<bool>('preferences');
   bool isLocalAuthOn = Hive.box<bool>('preferences').get('localAuthState', defaultValue: false)!;
