@@ -85,6 +85,15 @@ class _HomePageState extends State<HomePage> {
                     filled: true,
                     fillColor: Theme.of(context).cardColor,
                     prefixIcon: const Icon(Icons.search_rounded),
+                    suffixIcon: searchController.text.isNotEmpty
+                        ? IconButton(
+                            onPressed: () {
+                              setState(() {
+                                searchController.text = "";
+                              });
+                            },
+                            icon: const Icon(Icons.clear_rounded))
+                        : const SizedBox(),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(16),
                       borderSide: const BorderSide(
