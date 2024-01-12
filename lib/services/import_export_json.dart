@@ -52,7 +52,7 @@ void addCredsFromJson(BuildContext context) {
       ),
     ),
   );
-  FilePicker.platform.pickFiles().then((result) {
+  FilePicker.platform.pickFiles(allowedExtensions: ['json'], type: FileType.custom).then((result) {
     if (result != null) {
       File file = File(result.files.single.path!);
       addCredsToDB(file, context);
@@ -75,11 +75,11 @@ void addCredsToDB(File file, BuildContext context) {
   file.readAsString().then((content) {
     var json = jsonDecode(content);
     var items = json['items'];
+    var now = DateTime.now().millisecondsSinceEpoch;
     for (var item in items) {
-      Hive.box<Credentials>(credentialsBoxName)
-          .put(DateTime.now().millisecondsSinceEpoch.toString(), Credentials.fromJson(item));
+      Hive.box<Credentials>(credentialsBoxName).put((++now).toString(), Credentials.fromJson(item));
     }
-    Hive.box('folders').put("change", !Hive.box<bool>('folders').get("change")!);
+    Hive.box<bool>('folders').put("change", !Hive.box<bool>('folders').get("change")!);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         duration: const Duration(seconds: 2),

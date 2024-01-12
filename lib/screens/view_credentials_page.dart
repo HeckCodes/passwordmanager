@@ -39,7 +39,7 @@ class _ViewCredentialsPageState extends State<ViewCredentialsPage> {
 
   void saveAndExit() {
     if (loginDetialsFormKey.currentState!.validate()) {
-      final revisionDate = DateTime.now();
+      revisionDate = DateTime.now();
       Hive.box<Credentials>(credentialsBoxName)
           .put(
         widget.credentials.key,
@@ -429,7 +429,7 @@ class _ViewCredentialsPageState extends State<ViewCredentialsPage> {
                     ),
                     const SizedBox(height: 24),
                     Text("Created at:  ${widget.credentials.creationDate}"),
-                    Text("Revisioned: ${widget.credentials.creationDate}"),
+                    Text("Revisioned: ${widget.credentials.revisionDate}"),
                     const SizedBox(height: 24),
                   ],
                 ),
