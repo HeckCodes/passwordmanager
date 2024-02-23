@@ -116,9 +116,11 @@ class _HomePageState extends State<HomePage> {
                       child: ValueListenableBuilder(
                         valueListenable: Hive.box<bool>('folders').listenable(),
                         builder: (context, _, __) {
-                          Set<String?> folders =
-                              Hive.box<Credentials>(credentialsBoxName).values.map((e) => e.folderId).toSet();
+                          List<String?> folders =
+                              Hive.box<Credentials>(credentialsBoxName).values.map((e) => e.folderId).toSet().toList();
                           if (folders.isEmpty) folders.add("Default");
+                          folders.remove("Default");
+                          folders.insert(0, "Default");
                           List<Widget> tabs = folders.map((e) => Tab(text: e)).toList();
                           return DefaultTabController(
                             length: folders.length,
