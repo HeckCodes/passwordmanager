@@ -23,6 +23,7 @@ dependencies:
   local_auth: ^2.1.7
   file_picker: ^6.1.1
   device_info_plus: ^9.1.1
+  url_launcher: ^6.2.5
 
 dev_dependencies:
   flutter_test:

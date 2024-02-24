@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:otp_repository/otp_repository.dart';
 import 'package:passwordmanager/database/credentials.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ViewCredentialsPage extends StatefulWidget {
   final Credentials credentials;
@@ -391,6 +392,9 @@ class _ViewCredentialsPageState extends State<ViewCredentialsPage> {
                       keyboardType: TextInputType.url,
                       maxLines: 1,
                       readOnly: !isEditing,
+                      onTap: () {
+                        launchUrl(Uri.parse(uriController.value.text));
+                      },
                       decoration: InputDecoration(
                         fillColor: Theme.of(context).cardColor,
                         filled: true,
@@ -422,7 +426,7 @@ class _ViewCredentialsPageState extends State<ViewCredentialsPage> {
                       decoration: InputDecoration(
                         fillColor: Theme.of(context).cardColor,
                         filled: true,
-                        prefixIcon: const Icon(Icons.link_rounded),
+                        prefixIcon: const Icon(Icons.folder_open_rounded),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide: const BorderSide(
