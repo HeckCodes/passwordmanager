@@ -143,8 +143,7 @@ class _ViewCredentialsPageState extends State<ViewCredentialsPage> {
                         const Spacer(),
                         FloatingActionButton.small(
                           heroTag: null,
-                          backgroundColor:
-                              isEditing ? Theme.of(context).colorScheme.error : Theme.of(context).disabledColor,
+                          backgroundColor: isEditing ? Colors.red : Theme.of(context).disabledColor,
                           onPressed: isEditing
                               ? () {
                                   Hive.box<Credentials>(credentialsBoxName)
@@ -216,6 +215,18 @@ class _ViewCredentialsPageState extends State<ViewCredentialsPage> {
                         }
                         return null;
                       },
+                      onTap: () {
+                        Clipboard.setData(ClipboardData(text: usernameController.value.text)).then((value) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            duration: const Duration(seconds: 1),
+                            content: const Text('Username copied to clipboard.'),
+                            action: SnackBarAction(
+                              label: 'Ok',
+                              onPressed: ScaffoldMessenger.of(context).hideCurrentSnackBar,
+                            ),
+                          ));
+                        });
+                      },
                       controller: usernameController,
                       textCapitalization: TextCapitalization.none,
                       keyboardType: TextInputType.emailAddress,
@@ -251,6 +262,18 @@ class _ViewCredentialsPageState extends State<ViewCredentialsPage> {
                       obscureText: !showPassword,
                       maxLines: 1,
                       readOnly: !isEditing,
+                      onTap: () {
+                        Clipboard.setData(ClipboardData(text: passwordController.value.text)).then((value) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            duration: const Duration(seconds: 1),
+                            content: const Text('Password copied to clipboard.'),
+                            action: SnackBarAction(
+                              label: 'Ok',
+                              onPressed: ScaffoldMessenger.of(context).hideCurrentSnackBar,
+                            ),
+                          ));
+                        });
+                      },
                       decoration: InputDecoration(
                         fillColor: Theme.of(context).cardColor,
                         filled: true,
@@ -316,6 +339,18 @@ class _ViewCredentialsPageState extends State<ViewCredentialsPage> {
                     TextFormField(
                       controller: totpCodeController,
                       readOnly: true,
+                      onTap: () {
+                        Clipboard.setData(ClipboardData(text: totpCodeController.value.text)).then((value) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            duration: const Duration(seconds: 1),
+                            content: const Text('TOTP copied to clipboard.'),
+                            action: SnackBarAction(
+                              label: 'Ok',
+                              onPressed: ScaffoldMessenger.of(context).hideCurrentSnackBar,
+                            ),
+                          ));
+                        });
+                      },
                       decoration: InputDecoration(
                         fillColor: Theme.of(context).cardColor,
                         filled: true,

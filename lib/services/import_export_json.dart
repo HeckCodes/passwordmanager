@@ -116,8 +116,8 @@ void addCredsToJson(BuildContext context) {
 
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      duration: const Duration(seconds: 2),
-      content: const Text('File saved to documents folder.'),
+      duration: const Duration(seconds: 3),
+      content: const Text('File saved to Documents folder.'),
       action: SnackBarAction(
         label: 'Ok',
         onPressed: ScaffoldMessenger.of(context).hideCurrentSnackBar,
